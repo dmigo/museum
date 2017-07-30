@@ -11,14 +11,14 @@ Lock::Lock(int pin){
   
 void Lock::lock(){
   if(!_closed){
-    digitalWrite(_pin, LOW);//todo look it up
+    digitalWrite(_pin, LOW);
     _closed = true;
   }
 }
   
 void Lock::unlock(){
   if(_closed){
-    digitalWrite(_pin, HIGH);//todo look it up
+    digitalWrite(_pin, HIGH);
     _closed = false;
   }
 }
