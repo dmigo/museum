@@ -2,18 +2,18 @@
 
 class RfidLock{
 private:
-  rdm630 _rfid(6, 0);  //TX-pin of RDM630 connected to Arduino pin 6
+  rdm630 *_rfid = new rdm630(6, 0);  //TX-pin of RDM630 connected to Arduino pin 6
   unsigned long _key;
   bool _isOpen = false;
   
   bool _isRfidAvailable(){
-    return rfid.available();
+    return _rfid->available();
   }
   int _getRfid(){
     byte data[6];
     byte length;
     
-    rfid.getData(data, length);
+    _rfid->getData(data, length);
     unsigned long result = 
       ((unsigned long int)data[1]<<24) + 
       ((unsigned long int)data[2]<<16) + 
@@ -24,8 +24,8 @@ private:
   }
   
 public:
-  RfidLock(){
-    _rfid.begin();
+  RfidLock(unsigned long key){
+    _rfid->begin();
     _key = key;
   }
   
@@ -47,7 +47,7 @@ public:
   }
 };
 
-RfidLock rfidLock;
+RfidLock *rfidLock;
 
 
 void setup()
@@ -60,7 +60,7 @@ void setup()
 void loop()
 { 
   rfidLock->check();
-  Serial.print("Open: ");
-  Serial.println(rfidLock->isOpen());
+  if(rfidLock->isOpen())
+    Serial.println("OPEN");
 }
 
