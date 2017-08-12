@@ -4,6 +4,7 @@
 
 #define SOLVED 1
 #define NOT_SOLVED 0
+#define ADDRESS 9
 
 class KeyCode{
 private:
@@ -105,6 +106,9 @@ void setup()
   Serial.println("Starting...");
   rfidLock = new RfidLock(32157); //сюда кладем правильный ключ
   keyCode = new KeyCode();
+  Wire.begin(ADDRESS);
+  Wire.onRequest(requestEvent);
+  Serial.println("Starting...");
 }
 
 void loop()
