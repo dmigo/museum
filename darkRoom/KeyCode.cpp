@@ -6,39 +6,87 @@ private:
   static const byte _numCols = 3;
   char _keymap[_numRows][_numCols]= 
   {
-  {'1', '2', '3'}, 
-  {'4', '5', '6'}, 
-  {'7', '8', '9'},
-  {'*', '0', '#'}
+    {'1', '2', '3'}, 
+    {'4', '5', '6'}, 
+    {'7', '8', '9'},
+    {'*', '0', '#'}
   };
   byte _rowPins[_numRows] = {12,11,10,9};
-  byte _colPins[_numCols]= {8,7,5};
+  byte _colPins[_numCols]= {8,7,6};
   Keypad _keypad= Keypad(makeKeymap(_keymap), _rowPins, _colPins, _numRows, _numCols);
   
-  static const byte _numPassword = 5; // длинна пароля 
-  char _password[_numPassword] = {'3', '2', '1', '6', '7'}; // пароль 
+  int _passwordSize;
+  char *_password;
   
   byte _currentIndex = 0;
-  bool _isOpen = false;
+  char *_attempt;
+  
+  bool _isSolved = false;
+  void (*_onSuccess)();
+  void (*_onFailure)();
+
+  void _solve(){
+    _isSolved = true;
+    if(_onSuccess != 0L){
+      _onSuccess();
+    }
+  }
+
+  void _fail(){
+    _currentIndex = 0;
+    if(_onFailure != 0L){
+      _onFailure();
+    }
+  }
+
+  bool _attemptSuccessful(){
+    bool result = true;
+    
+    for(int i=0; i<_passwordSize; i++)
+      result = result && _attempt[i] == _password[i];
+
+    return result;
+  }
+  
 public:
-  KeyCode(){
+  KeyCode(int passwordSize, char password[]){
+    _passwordSize = passwordSize;
+    _password = new char[passwordSize];
+    _attempt = new char[passwordSize];
+    for(int i=0; i<passwordSize; i++){
+      _password[i] = password[i];
+      _attempt[i] = ' ';
+    }
   }
   
   void check(){
-    if(_isOpen)
+    if(_isSolved)
       return;
     
     char key = _keypad.getKey();
     if(key != NO_KEY){
-      if(key == _password[_currentIndex])
-        _currentIndex++;
-      else
-        _currentIndex = 0;
+      _attempt[_currentIndex] = key;
+      _currentIndex++;
       
-      _isOpen = _currentIndex == _numPassword;
+      if(_currentIndex == _passwordSize)
+        if(_attemptSuccessful())
+          _solve();
+        else
+          _fail();
     }
   }
-  bool isOpen(){
-    return _isOpen;
+  
+  bool isSolved(){
+    return _isSolved;
+  }
+  void drop(){
+    _isSolved = false;
+    _currentIndex = 0;
+  }
+  void onSuccess(void (*callback)()){
+    _onSuccess = callback;
+  }
+  void onFailure(void (*callback)()){
+    _onFailure = callback;
   }
 };
