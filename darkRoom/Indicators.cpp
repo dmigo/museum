@@ -26,6 +26,7 @@ class SimpleIndicator{
   }
 };
 
+
 class BlinkingIndicator{
   private:
   SimpleIndicator *_indicator;
@@ -87,3 +88,5 @@ class BlinkingIndicator{
     _startBlinking = millis();
   }
 };
+
+
