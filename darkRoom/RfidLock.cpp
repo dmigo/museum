@@ -45,4 +45,8 @@ public:
   bool isOpen(){
     return _isOpen;
   }
+
+  void drop(){
+    _isOpen = false;
+  }
 };
