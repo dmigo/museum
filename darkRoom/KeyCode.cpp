@@ -1,5 +1,33 @@
 #include <Keypad.h>
 
+class Blocker{
+  private:
+  bool _blocked = false;
+  long _whenBlocked;
+  long _duration;
+
+  public:
+  Blocker(){
+  }
+  void block(long milliseconds){
+    _whenBlocked = millis();
+    _duration = milliseconds;
+    _blocked = true;
+  }
+  void check(){
+    if(!_blocked)
+      return;
+    if(millis() > _whenBlocked + _duration)
+      _blocked = false;
+  }
+	void block(){
+		_blocked = true;
+	}
+	void unblock(){
+		_blocked = false;
+	}
+};
+
 class KeyCode{
 private:
   static const byte _numRows = 4;
@@ -13,7 +41,7 @@ private:
   };
   byte _rowPins[_numRows] = {12,11,10,9};
   byte _colPins[_numCols]= {8,7,6};
-  Keypad _keypad= Keypad(makeKeymap(_keymap), _rowPins, _colPins, _numRows, _numCols);
+  Keypad _keypad = Keypad(makeKeymap(_keymap), _rowPins, _colPins, _numRows, _numCols);
   
   int _passwordSize;
   char *_password;
