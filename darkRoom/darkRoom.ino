@@ -59,11 +59,11 @@ void loop()
   if(rfidLock->isOpen())
     green1->switchOn();
   else
-    green1->swotchOff();
+    green1->switchOff();
 }
 
 void requestEvent() {
-  if(keyCode->isSolved() && rfidLock->isOpen())
+  if(rightCode->isSolved() && rfidLock->isOpen())
     Wire.write(SOLVED); 
   else
     Wire.write(NOT_SOLVED);
