@@ -2,12 +2,13 @@
 
 class Blocker{
   private:
-  bool _blocked = false;
+  bool _blocked;
   long _whenBlocked;
   long _duration;
 
   public:
   Blocker(){
+		_blocked = false;
   }
   void block(long milliseconds){
     _whenBlocked = millis();
@@ -25,6 +26,9 @@ class Blocker{
 	}
 	void unblock(){
 		_blocked = false;
+	}
+	bool isBlocked(){
+		return _blocked;
 	}
 };
 
@@ -48,7 +52,9 @@ private:
   
   byte _currentIndex = 0;
   char *_attempt;
-  
+
+	Blocker *_blocker;
+
   bool _isSolved = false;
   void (*_onSuccess)();
   void (*_onFailure)();
@@ -81,6 +87,7 @@ public:
     _passwordSize = passwordSize;
     _password = new char[passwordSize];
     _attempt = new char[passwordSize];
+		_blocker = new Blocker();
     for(int i=0; i<passwordSize; i++){
       _password[i] = password[i];
       _attempt[i] = ' ';
@@ -88,7 +95,11 @@ public:
   }
   
   void check(){
-    if(_isSolved)
+  	_blocker->check();
+
+		if(_blocker->isBlocked())
+			return;	
+	 	if(_isSolved)
       return;
     
     char key = _keypad.getKey();
@@ -117,4 +128,13 @@ public:
   void onFailure(void (*callback)()){
     _onFailure = callback;
   }
+	void deactivate(long milliseconds){
+		_blocker->block(milliseconds);
+	}
+	void deactivate(){
+		_blocker->block();
+	}
+	void activate(){
+		_blocker->unblock();
+	}
 };
