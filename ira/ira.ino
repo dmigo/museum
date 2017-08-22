@@ -1,51 +1,43 @@
-#include <Lock.h>
-#include <Rfid.h>
+#define ADDRESS 8
 
-#define UNLOCK_DELAY 10000 //задержка для замка
+#include <Wire.h>
+#include "RfidLock.cpp"
+#include "Indicators.cpp"
 
-#define SS_PIN 10
-#define RST_PIN 9
+#define SOLVED 1
+#define NOT_SOLVED 0
 
-#define SCL A5
-#define SDA A4
+RfidLock* rfidLock;
+SimpleIndicator* green;
 
-#define LOCK_PIN 2
-
-#define UID 19001  //айдишник нужной нфцшки
-
-Rfid *rfid;
-//Lock *lock;
-
-void setup() {
-  
+void setup()
+{
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }  
+  Serial.println("Starting...");
+  
+  rfidLock = new RfidLock(32157); //сюда кладем правильный rfid-ключ
+  
+  green = new SimpleIndicator(A2); // пин индикатора
 
-  Serial.println("Initializing...");
- // lock = new Lock(LOCK_PIN);
-  rfid = new Rfid(SS_PIN, RST_PIN);
-
- // lock->lock();
-  Serial.println("Start...");
+  Wire.begin(ADDRESS);
+  Wire.onRequest(requestEvent);
+  Serial.println("Started.");
 }
 
-void loop() {
-  int uid = rfid->readUid();
-  
-//  if(uid == UID){
-    //Serial.println("Unlocking!");
-    //lock->unlock();
-    //delay(UNLOCK_DELAY);
-    //Serial.println("Locking!");
-    //lock->lock();
-    //delay(UNLOCK_DELAY);
-  //}
-delay(1000);
- // if(uid!=0){
-    Serial.print("Current uid is: ");
-    Serial.println(uid);
-  //}
+void loop()
+{ 
+  rfidLock->check();
+
+  if(rfidLock->isOpen())
+    green->switchOn();
+  else
+    green->switchOff();
+}
+
+void requestEvent() {
+  if(rfidLock->isOpen())
+    Wire.write(SOLVED); 
+  else
+    Wire.write(NOT_SOLVED);
 }
 
