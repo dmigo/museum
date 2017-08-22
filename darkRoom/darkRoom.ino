@@ -10,7 +10,6 @@
 
 RfidLock* rfidLock;
 KeyCode* rightCode;
-KeyCode* dropCode;
 
 SimpleIndicator* green1;
 SimpleIndicator* green2;
@@ -18,10 +17,7 @@ SimpleIndicator* red;
 BlinkingIndicator* redBlink;
 
 static const byte sizeRightPassword = 5; // длинна правильного пароля 
-char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль 
-
-static const byte sizeWrongPassword = 5; // длинна неправильного пароля 
-char wrongPassword[sizeWrongPassword] = {'3', '2', '1', '6', '8'}; // неправильный пароль 
+char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
 
 void setup()
 {
@@ -33,10 +29,6 @@ void setup()
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
   rightCode->onFailure(codeFailed);
-  
-  dropCode = new KeyCode(sizeWrongPassword, wrongPassword);
-  dropCode->onSuccess(dropKeys);
-  dropCode->onFailure(dropFailed);
   
   green1 = new SimpleIndicator(A2);
   green2 = new SimpleIndicator(A1);
@@ -54,7 +46,6 @@ void loop()
   rfidLock->check();
   redBlink->check();
   rightCode->check();
-  dropCode->check();
 
   if(rfidLock->isOpen())
     green1->switchOn();
@@ -74,14 +65,4 @@ void codeSolved(){
 }
 void codeFailed(){
   redBlink->blinkNTimes(3);
-}
-void dropKeys(){
-  green2->switchOff();
-  rightCode->drop();
-  dropCode->drop();
-  rfidLock->drop();
-}
-void dropFailed(){
-  if(rightCode->isSolved())
-    redBlink->blinkNTimes(2);
 }
