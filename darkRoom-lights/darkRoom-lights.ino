@@ -28,10 +28,6 @@ void setup()
 
 void loop()
 {
-  sensor1->check();
-  sensor2->check();
-  sensor3->check();
-  sensor4->check();
 }
 
 void requestEvent() {
