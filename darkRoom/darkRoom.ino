@@ -1,3 +1,4 @@
+#define ADDRESS 9
 
 #include <Wire.h>
 #include "RfidLock.cpp"
@@ -6,7 +7,6 @@
 
 #define SOLVED 1
 #define NOT_SOLVED 0
-#define ADDRESS 9
 
 RfidLock* rfidLock;
 KeyCode* rightCode;
