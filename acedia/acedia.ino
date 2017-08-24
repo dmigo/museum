@@ -1,3 +1,9 @@
+#define ADDRESS 11
+
+#define SOLVED 1
+#define NOT_SOLVED 0
+
+#include <Wire.h>
 #include "Button.cpp"
 #include "Sequence.cpp"
 
@@ -22,11 +28,16 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
   Serial.println("Starting...");
+  
   for(int i=0; i<buttonsCount; i++){
     buttons[i].onRelease(handleButtonClick);
   }
   sequence.onSuccess(handleSuccess);
   sequence.onFailure(handleFail);
+
+  Wire.begin(ADDRESS);
+  Wire.onRequest(requestEvent);
+  
   Serial.println("Started.");
 }
 
@@ -49,4 +60,11 @@ void loop() {
   for(int i=0; i<buttonsCount; i++){
     buttons[i].check();
   }
+}
+
+void requestEvent() {
+  if(sequence.isSolved())
+    Wire.write(SOLVED); 
+  else
+    Wire.write(NOT_SOLVED);
 }
