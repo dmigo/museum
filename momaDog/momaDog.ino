@@ -4,8 +4,8 @@
 #define NOT_SOLVED 0
 
 const int amount = 3;
-int slaves[amount] = { 8, 9, 10};
-int leds[amount] = { 8, 9, 10}; 
+int slaves[amount] = { 8, 9, 10, 11};
+int leds[amount] = { 8, 9, 10, 11}; 
 
 void setup() {
   Wire.begin(); // join i2c bus (address optional for master)
