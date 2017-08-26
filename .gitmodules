@@ -1,0 +1,3 @@
+[submodule "masterMind/Toolbox"]
+	path = masterMind/Toolbox
+	url = git@github.com:queststudio/Toolbox.git
