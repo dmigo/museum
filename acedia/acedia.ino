@@ -82,7 +82,7 @@ void setup() {
   myDFPlayer.volume(10);  // громкость крутить здесь
 
   for (int i = 0; i < fragmentsCount; i++) {
-    buttons[i].onRelease(handleButtonPress);
+    buttons[i].onPress(handleButtonPress);
     buttons[i].onRelease(handleButtonRelease);
   }
   sequence.onSuccess(handleSuccess);
