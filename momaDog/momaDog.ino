@@ -28,6 +28,7 @@ void sendState() {
   for (int i = 0; i < amount; i++) {
     Serial1.print('C');
     Serial1.print(i);
+    Serial1.print(':');
     Serial1.print(state[i]);
   }
 }
@@ -47,6 +48,7 @@ void executeCommand() {
     return;
 
   int id = Serial1.parseInt();
+  Serial1.read();
   bool newState = Serial1.parseInt();
 
   state[id] = state[id] || newState;
