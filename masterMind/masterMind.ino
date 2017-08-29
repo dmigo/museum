@@ -27,8 +27,8 @@ int mapPinToId(int pin) { //ToDo replace with a map or so
 }
 
 void setup() {
-  Serial1.begin(9600);
-  Serial2.begin(115200);
+  Serial1.begin(115200);
+  Serial2.begin(9600);
   Serial1.println("Starting...");
 
   for (int i = 0; i < elementsCount; i++) {
@@ -40,9 +40,9 @@ void setup() {
 
 void handleButtonRelease(int pin) {
   int id = mapPinToId(pin);
-  Serial1.print("Button ");
-  Serial1.print(pin);
-  Serial1.println(" released");
+  Serial2.print("Button ");
+  Serial2.print(pin);
+  Serial2.println(" released");
   setState(id, true);
 }
 
@@ -68,6 +68,7 @@ void skipToCommand() {
     Serial1.read();
   }
 }
+
 void executeCommand() {
   if (Serial1.available() <= 0
   || Serial1.peek() != 'C')
@@ -76,7 +77,7 @@ void executeCommand() {
   int id = Serial1.parseInt();
   bool newState = Serial1.parseInt();
 
-  state[id] = newState;
+  state[id] = state[id] || newState;
 }
 
 void readState() {
@@ -88,7 +89,10 @@ void readState() {
 
 void render() {
   for (int i = 0; i < elementsCount; i++) {
-    indicators[i].switchOn();
+    if(state[i])
+      indicators[i].switchOn();
+    else
+      indicators[i].switchOff();
   }
 }
 
