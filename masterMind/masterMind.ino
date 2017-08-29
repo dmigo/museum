@@ -1,16 +1,18 @@
 #include "Toolbox/Button.cpp"
 #include "Toolbox/Indicators.cpp"
 
-const int elementsCount = 3;
+const int elementsCount = 4;
 Button buttons [elementsCount] = {
+  Button(4),
+  Button(5),
+  Button(6),
   Button(7),
-  Button(8),
-  Button(9),
 };
 SimpleIndicator indicators [elementsCount] = {
-  SimpleIndicator(4),
-  SimpleIndicator(5),
-  SimpleIndicator(6),
+  SimpleIndicator(A1),
+  SimpleIndicator(A2),
+  SimpleIndicator(A3),
+  SimpleIndicator(A4),
 };
 bool state [elementsCount] = {false};
 
