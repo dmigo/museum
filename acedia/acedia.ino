@@ -49,7 +49,7 @@ Button buttons [fragmentsCount] = {
   Button(8),
   Button(9),
 };
-Button exampleButton(10);
+Button exampleButton(12);
 
 int fragments [fragmentsCount] = { // фрагменты трэка
   1,
