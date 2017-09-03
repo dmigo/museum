@@ -49,6 +49,7 @@ Button buttons [fragmentsCount] = {
   Button(8),
   Button(9),
 };
+Button exampleButton(10);
 
 int fragments [fragmentsCount] = { // фрагменты трэка
   1,
@@ -58,6 +59,7 @@ int fragments [fragmentsCount] = { // фрагменты трэка
   5,
   6
 };
+int completeSong = 7;
 int durations [fragmentsCount] = { // длинны фрагментов
   1000,
   1000,
@@ -66,6 +68,7 @@ int durations [fragmentsCount] = { // длинны фрагментов
   1000,
   1000
 };
+int completeSongDuration = 6000;
 
 const int sequenceSize = 6; // длинна правильной последовательности
 int pinsSequence[sequenceSize] = {5, 4, 3, 2, 1, 0}; // правильная последовательность
@@ -85,6 +88,7 @@ void setup() {
     buttons[i].onPress(handleButtonPress);
     buttons[i].onRelease(handleButtonRelease);
   }
+  exampleButton.onRelease(handleExampleButtonRelease);
   sequence.onSuccess(handleSuccess);
   sequence.onFailure(handleFail);
 
@@ -102,6 +106,20 @@ void checkPlayerState() {
     while (true);
   }
   Serial.println(F("DFPlayer Mini online."));
+}
+
+void deactivateAll(int duration) {
+  for (int i = 0; i < fragmentsCount; i++) {
+    buttons[i].deactivate(duration);
+  }
+  exampleButton.deactivate(duration);
+}
+
+void deactivateAll() {
+  for (int i = 0; i < fragmentsCount; i++) {
+    buttons[i].deactivate();
+  }
+  exampleButton.deactivate();
 }
 
 void handleButtonPress(int pin) {
@@ -122,13 +140,18 @@ void handleButtonRelease(int pin) {
 
   sequence.add(id);
   myDFPlayer.play(fragments[id]);
-  for (int i = 0; i < fragmentsCount; i++) {
-    buttons[id].deactivate(durations[id]);
-  }
+  deactivateAll(durations[id]);
+}
+
+void handleExampleButtonRelease(int pin) {
+  myDFPlayer.play(completeSong);
+  deactivateAll(completeSongDuration);
 }
 
 void handleSuccess() {
   Serial.println("*Success*");
+  myDFPlayer.play(completeSong);
+  deactivateAll();
 }
 
 void handleFail() {

@@ -57,15 +57,15 @@ class Sensor {
     }
 
     void check() {
+      _blocker->check();
+
       if (_stateChanged()
           && _debounced()) {
 
         _updateState();
 
-        if (_blocker->isBlocked())
-          return;
-
-        _act();
+        if (!_blocker->isBlocked())
+          _act();
       }
     }
 
