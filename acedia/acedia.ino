@@ -162,6 +162,7 @@ void loop() {
   for (int i = 0; i < fragmentsCount; i++) {
     buttons[i].check();
   }
+  exampleButton.check();
 }
 
 void requestEvent() {
