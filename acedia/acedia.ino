@@ -11,7 +11,7 @@
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
-#include "Button.cpp"
+#include "Tactile.cpp"
 #include "Sequence.cpp"
 
 int pinToId(int pin) {
@@ -41,15 +41,15 @@ SoftwareSerial mySoftwareSerial(PLAYER_RX, PLAYER_TX); // сюда подклю�
 DFRobotDFPlayerMini myDFPlayer;
 
 const int fragmentsCount = 6;
-Button buttons [fragmentsCount] = {
-  Button(4),
-  Button(5),
-  Button(6),
-  Button(7),
-  Button(8),
-  Button(9),
+Tactile buttons [fragmentsCount] = {
+  Tactile(4, A0),
+  Tactile(5, A1),
+  Tactile(6, A2),
+  Tactile(7, A3),
+  Tactile(8, A4),
+  Tactile(9, A5),
 };
-Button exampleButton(12);
+Tactile exampleButton(12, 13);
 
 int fragments [fragmentsCount] = { // фрагменты трэка
   1,
