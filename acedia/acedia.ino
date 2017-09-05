@@ -11,7 +11,8 @@
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
-#include "Tactile.cpp"
+#include "Button.cpp"
+#include "Indicators.cpp"
 #include "Sequence.cpp"
 
 int pinToId(int pin) {
@@ -41,15 +42,24 @@ SoftwareSerial mySoftwareSerial(PLAYER_RX, PLAYER_TX); // сюда подклю�
 DFRobotDFPlayerMini myDFPlayer;
 
 const int fragmentsCount = 6;
-Tactile buttons [fragmentsCount] = {
-  Tactile(4, A0),
-  Tactile(5, A1),
-  Tactile(6, A2),
-  Tactile(7, A3),
-  Tactile(8, A4),
-  Tactile(9, A5),
+Button buttons [fragmentsCount] = {
+  Button(4),
+  Button(5),
+  Button(6),
+  Button(7),
+  Button(8),
+  Button(9),
 };
-Tactile exampleButton(12, 13);
+SimpleIndicator indicators [fragmentsCount] = {
+  SimpleIndicator(A0),
+  SimpleIndicator(A1),
+  SimpleIndicator(A2),
+  SimpleIndicator(A3),
+  SimpleIndicator(A4),
+  SimpleIndicator(A5),
+};
+Button exampleButton(12);
+SimpleIndicator exampleIndicator(13);
 
 int fragments [fragmentsCount] = { // фрагменты трэка
   1,
@@ -88,6 +98,7 @@ void setup() {
     buttons[i].onPress(handleButtonPress);
     buttons[i].onRelease(handleButtonRelease);
   }
+  exampleButton.onPress(handleExampleButtonPress);
   exampleButton.onRelease(handleExampleButtonRelease);
   sequence.onSuccess(handleSuccess);
   sequence.onFailure(handleFail);
@@ -128,6 +139,8 @@ void handleButtonPress(int pin) {
   Serial.print("Button ");
   Serial.print(pin);
   Serial.println(" pressed");
+
+  indicators[id].switchOn();
 }
 
 
@@ -141,9 +154,18 @@ void handleButtonRelease(int pin) {
   sequence.add(id);
   myDFPlayer.play(fragments[id]);
   deactivateAll(durations[id]);
+  indicators[id].switchOff();
 }
 
+void handleExampleButtonPress(int pin) {
+  exampleIndicator.switchOn();
+  myDFPlayer.play(completeSong);
+  deactivateAll(completeSongDuration);
+}
+
+
 void handleExampleButtonRelease(int pin) {
+  exampleIndicator.switchOff();
   myDFPlayer.play(completeSong);
   deactivateAll(completeSongDuration);
 }
