@@ -1,3 +1,5 @@
+#ifndef INDICATORS_H
+#define INDICATORS_H
 #include <Arduino.h>
 
 class SimpleIndicator{
@@ -88,5 +90,6 @@ class BlinkingIndicator{
     _startBlinking = millis();
   }
 };
+#endif
 
 
