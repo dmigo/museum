@@ -75,10 +75,6 @@ int pinsSequence[sequenceSize] = {5, 4, 3, 2, 1, 0}; // правильная п�
 
 Sequence sequence(fragmentsCount, pinsSequence);
 
-SimpleIndicator* green;
-SimpleIndicator* simpleRed;
-BlinkingIndicator* red;
-
 void setup() {
   mySoftwareSerial.begin(9600);
   Serial.begin(115200); // ВНИМАНИЕ!!! серийник на вывод на необычной частоте
@@ -87,10 +83,6 @@ void setup() {
 
   checkPlayerState();
   myDFPlayer.volume(10);  // громкость крутить здесь
-
-  green = new SimpleIndicator(0);
-  simpleRed = new SimpleIndicator(1);
-  red = new BlinkingIndicator(simpleRed, 1000, 500);
 
   for (int i = 0; i < fragmentsCount; i++) {
     buttons[i].onPress(handleButtonPress);
@@ -160,12 +152,10 @@ void handleSuccess() {
   Serial.println("*Success*");
   myDFPlayer.play(completeSong);
   deactivateAll();
-  green->switchOn();
 }
 
 void handleFail() {
   Serial.println("*Fail*");
-  red->blinkNTimes(3);
 }
 
 void loop() {
@@ -173,7 +163,6 @@ void loop() {
     buttons[i].check();
   }
   exampleButton.check();
-  red->check();
 }
 
 void requestEvent() {
