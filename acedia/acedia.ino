@@ -3,8 +3,8 @@
 #define SOLVED 1
 #define NOT_SOLVED 0
 
-#define PLAYER_RX 10
-#define PLAYER_TX 11
+#define PLAYER_RX 0
+#define PLAYER_TX 1
 
 #include <Wire.h>
 
@@ -61,6 +61,9 @@ SimpleIndicator indicators [fragmentsCount] = {
 Button exampleButton(12);
 SimpleIndicator exampleIndicator(13);
 
+BlinkingIndicator* red;
+SimpleIndicator* green;
+
 int fragments [fragmentsCount] = { // фрагменты трэка
   1,
   2,
@@ -87,9 +90,6 @@ Sequence sequence(fragmentsCount, pinsSequence);
 
 void setup() {
   mySoftwareSerial.begin(9600);
-  Serial.begin(115200); // ВНИМАНИЕ!!! серийник на вывод на необычной частоте
-
-  Serial.println("Starting...");
 
   checkPlayerState();
   myDFPlayer.volume(10);  // громкость крутить здесь
@@ -98,6 +98,10 @@ void setup() {
     buttons[i].onPress(handleButtonPress);
     buttons[i].onRelease(handleButtonRelease);
   }
+  SimpleIndicator* simpleRed = new SimpleIndicator(10);
+  red = new BlinkingIndicator(simpleRed, 1000, 500);
+  green = new SimpleIndicator(11);
+  
   exampleButton.onPress(handleExampleButtonPress);
   exampleButton.onRelease(handleExampleButtonRelease);
   sequence.onSuccess(handleSuccess);
@@ -105,18 +109,12 @@ void setup() {
 
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
-
-  Serial.println("Started.");
 }
 
 void checkPlayerState() {
   if (!myDFPlayer.begin(mySoftwareSerial)) {
-    Serial.println(F("Unable to begin:"));
-    Serial.println(F("1.Please recheck the connection!"));
-    Serial.println(F("2.Please insert the SD card!"));
     while (true);
   }
-  Serial.println(F("DFPlayer Mini online."));
 }
 
 void deactivateAll(int duration) {
@@ -135,22 +133,12 @@ void deactivateAll() {
 
 void handleButtonPress(int pin) {
   int id = pinToId(pin);
-
-  Serial.print("Button ");
-  Serial.print(pin);
-  Serial.println(" pressed");
-
   indicators[id].switchOn();
 }
 
 
 void handleButtonRelease(int pin) {
   int id = pinToId(pin);
-
-  Serial.print("Button ");
-  Serial.print(pin);
-  Serial.println(" released");
-
   sequence.add(id);
   myDFPlayer.play(fragments[id]);
   deactivateAll(durations[id]);
@@ -171,13 +159,13 @@ void handleExampleButtonRelease(int pin) {
 }
 
 void handleSuccess() {
-  Serial.println("*Success*");
   myDFPlayer.play(completeSong);
   deactivateAll();
+  green->switchOn();
 }
 
 void handleFail() {
-  Serial.println("*Fail*");
+  red->blinkNTimes(3);
 }
 
 void loop() {
@@ -185,6 +173,7 @@ void loop() {
     buttons[i].check();
   }
   exampleButton.check();
+  red->check();
 }
 
 void requestEvent() {
