@@ -1,36 +1,33 @@
 #include "Toolbox/Button.cpp"
 #include "Toolbox/Indicators.cpp"
 
-const int elementsCount = 4;
+const int elementsCount = 3;
 Button buttons [elementsCount] = {
-  Button(4),
-  Button(5),
-  Button(6),
-  Button(7),
+  Button(50),
+  Button(51),
+  Button(52),
 };
 SimpleIndicator indicators [elementsCount] = {
-  SimpleIndicator(A1),
-  SimpleIndicator(A2),
-  SimpleIndicator(A3),
-  SimpleIndicator(A4),
+  SimpleIndicator(20),
+  SimpleIndicator(21),
+  SimpleIndicator(22),
 };
 bool state [elementsCount] = {false};
 
 int mapPinToId(int pin) { //ToDo replace with a map or so
   switch (pin) {
-    case 7:
+    case 50:
       return 0;
-      break;
-    case 8:
+    case 51:
       return 1;
-    case 9:
+    case 52:
       return 2;
   }
 }
 
 void setup() {
-  Serial1.begin(115200);
-  Serial2.begin(9600);
+  Serial1.begin(9600);
+  Serial2.begin(115200);
   Serial1.println("Starting...");
 
   for (int i = 0; i < elementsCount; i++) {
@@ -42,9 +39,9 @@ void setup() {
 
 void handleButtonRelease(int pin) {
   int id = mapPinToId(pin);
-  Serial2.print("Button ");
-  Serial2.print(pin);
-  Serial2.println(" released");
+  Serial1.print("Button ");
+  Serial1.print(pin);
+  Serial1.println(" released");
   setState(id, true);
 }
 
@@ -56,30 +53,30 @@ void setState(int id, bool newState) {
 
 void sendState() {
   for (int i = 0; i < elementsCount; i++) {
-    Serial1.print('C');
-    Serial1.print(i);
-    Serial1.print(':');
-    Serial1.print(state[i]);
+    Serial2.print('C');
+    Serial2.print(i);
+    Serial2.print(':');
+    Serial2.print(state[i]);
   }
 }
 
 void skipToCommand() {
-  if (Serial1.available() <= 0)
+  if (Serial2.available() <= 0)
     return;
     
-  while(Serial1.peek() != 'C'){
-    Serial1.read();
+  while(Serial2.peek() != 'C'){
+    Serial2.read();
   }
 }
 
 void executeCommand() {
-  if (Serial1.available() <= 0
-  || Serial1.peek() != 'C')
+  if (Serial2.available() <= 0
+  || Serial2.peek() != 'C')
     return;
 
-  int id = Serial1.parseInt();
-  Serial1.read();
-  bool newState = Serial1.parseInt();
+  int id = Serial2.parseInt();
+  Serial2.read();
+  bool newState = Serial2.parseInt();
 
   state[id] = state[id] || newState;
 }
