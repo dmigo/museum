@@ -1,48 +1,58 @@
 #include "Toolbox/Button.cpp"
 #include "Toolbox/Indicators.cpp"
 
-const int elementsCount = 3;
+const int elementsCount = 10;
 Button buttons [elementsCount] = {
-  Button(50),
-  Button(51),
-  Button(52),
+  Button(20),
+  Button(21),
+  Button(22),
+  Button(23),
+  Button(24),
+  Button(25),
+  Button(26),
+  Button(27),
+  Button(28),
+  Button(29),
 };
 SimpleIndicator indicators [elementsCount] = {
-  SimpleIndicator(20),
-  SimpleIndicator(21),
-  SimpleIndicator(22),
+  SimpleIndicator(40),
+  SimpleIndicator(41),
+  SimpleIndicator(42),
+  SimpleIndicator(43),
+  SimpleIndicator(44),
+  SimpleIndicator(45),
+  SimpleIndicator(46),
+  SimpleIndicator(47),
+  SimpleIndicator(48),
+  SimpleIndicator(49),
 };
 bool state [elementsCount] = {false};
 
 int mapPinToId(int pin) { //ToDo replace with a map or so
   switch (pin) {
-    case 50:
+    case 20:
       return 0;
-    case 51:
+    case 21:
       return 1;
-    case 52:
+    case 22:
       return 2;
   }
 }
 
 void setup() {
   Serial1.begin(9600);
-  Serial2.begin(115200);
-  Serial1.println("Starting...");
-
   for (int i = 0; i < elementsCount; i++) {
+    buttons[i].onPress(handleButtonPress);
     buttons[i].onRelease(handleButtonRelease);
   }
+}
 
-  Serial1.println("Started.");
+void handleButtonPress(int pin) {
+  int id = mapPinToId(pin);
+  setState(id, true);
 }
 
 void handleButtonRelease(int pin) {
-  int id = mapPinToId(pin);
-  Serial1.print("Button ");
-  Serial1.print(pin);
-  Serial1.println(" released");
-  setState(id, true);
 }
 
 void setState(int id, bool newState) {
@@ -52,32 +62,33 @@ void setState(int id, bool newState) {
 }
 
 void sendState() {
+  Serial1.println();
   for (int i = 0; i < elementsCount; i++) {
-    Serial2.print('C');
-    Serial2.print(i);
-    Serial2.print(':');
-    Serial2.print(state[i]);
+    Serial1.print('C');
+    Serial1.print(i);
+    Serial1.print(':');
+    Serial1.print(state[i]);
   }
 }
 
 void skipToCommand() {
-  if (Serial2.available() <= 0)
+  if (Serial1.available() <= 0)
     return;
-    
-  while(Serial2.peek() != 'C'){
-    Serial2.read();
+
+  while (Serial1.peek() != 'C') {
+    Serial1.read();
   }
 }
 
 void executeCommand() {
-  if (Serial2.available() <= 0
-  || Serial2.peek() != 'C')
+  if (Serial1.available() <= 0
+      || Serial1.peek() != 'C')
     return;
 
-  int id = Serial2.parseInt();
-  Serial2.read();
-  bool newState = Serial2.parseInt();
-
+  int id = Serial1.parseInt();
+  Serial1.read();
+  bool newState = Serial1.parseInt();
+  
   state[id] = state[id] || newState;
 }
 
@@ -90,7 +101,7 @@ void readState() {
 
 void render() {
   for (int i = 0; i < elementsCount; i++) {
-    if(state[i])
+    if (state[i])
       indicators[i].switchOn();
     else
       indicators[i].switchOff();
@@ -99,5 +110,7 @@ void render() {
 
 void loop() {
   readState();
-  delay(10);
+  for (int i = 0; i < elementsCount; i++) {
+    buttons[i].check();
+  }
 }
