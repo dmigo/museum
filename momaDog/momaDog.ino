@@ -10,8 +10,7 @@ bool state[amount] = {false};
 
 void setup() {
   Wire.begin(); // join i2c bus (address optional for master)
-  Serial1.begin(115200);
-  Serial2.begin(9600);
+  Serial1.begin(9600);
   for(int i=0; i<amount; i++){
     pinMode(leds[i], OUTPUT);
     digitalWrite(leds[i], LOW);
@@ -25,6 +24,7 @@ void setState(int id, bool newState) {
 }
 
 void sendState() {
+  Serial1.println();
   for (int i = 0; i < amount; i++) {
     Serial1.print('C');
     Serial1.print(i);
@@ -75,11 +75,7 @@ void querySlaves(){
   {
     Wire.requestFrom(slaves[id], 1);    // request 1 byte from slave device
     if (Wire.available()) { 
-      byte b = Wire.read(); 
-      Serial2.print(b); 
-      Serial2.print(" from "); 
-      Serial2.println(slaves[id]);
-
+      byte b = Wire.read();
       setState(id, b == SOLVED);
     }
   }
