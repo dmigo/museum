@@ -8,8 +8,8 @@
 
 #include <Wire.h>
 
-#include "SoftwareSerial.h"
-#include "DFRobotDFPlayerMini.h"
+#include <SoftwareSerial.h>
+#include <DFPlayer_Mini_Mp3.h>
 
 #include "Button.cpp"
 #include "Indicators.cpp"
@@ -39,7 +39,6 @@ int pinToId(int pin) {
 }
 
 SoftwareSerial mySoftwareSerial(PLAYER_RX, PLAYER_TX); // сюда подключаем плэйер
-DFRobotDFPlayerMini myDFPlayer;
 
 const int fragmentsCount = 6;
 Button buttons [fragmentsCount] = {
@@ -91,8 +90,8 @@ Sequence sequence(fragmentsCount, pinsSequence);
 void setup() {
   mySoftwareSerial.begin(9600);
 
-  checkPlayerState();
-  myDFPlayer.volume(10);  // громкость крутить здесь
+  mp3_set_serial(mySoftwareSerial);
+  mp3_set_volume(10);  // громкость крутить здесь
 
   for (int i = 0; i < fragmentsCount; i++) {
     buttons[i].onPress(handleButtonPress);
@@ -109,12 +108,6 @@ void setup() {
 
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
-}
-
-void checkPlayerState() {
-  if (!myDFPlayer.begin(mySoftwareSerial)) {
-    while (true);
-  }
 }
 
 void deactivateAll(int duration) {
@@ -140,26 +133,26 @@ void handleButtonPress(int pin) {
 void handleButtonRelease(int pin) {
   int id = pinToId(pin);
   sequence.add(id);
-  myDFPlayer.play(fragments[id]);
+  mp3_play(fragments[id]);
   deactivateAll(durations[id]);
   indicators[id].switchOff();
 }
 
 void handleExampleButtonPress(int pin) {
   exampleIndicator.switchOn();
-  myDFPlayer.play(completeSong);
+  mp3_play(completeSong);
   deactivateAll(completeSongDuration);
 }
 
 
 void handleExampleButtonRelease(int pin) {
   exampleIndicator.switchOff();
-  myDFPlayer.play(completeSong);
+  mp3_play(completeSong);
   deactivateAll(completeSongDuration);
 }
 
 void handleSuccess() {
-  myDFPlayer.play(completeSong);
+  mp3_play(completeSong);
   deactivateAll();
   green->switchOn();
 }
