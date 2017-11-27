@@ -147,8 +147,6 @@ void handleExampleButtonPress(int pin) {
 
 void handleExampleButtonRelease(int pin) {
   exampleIndicator.switchOff();
-  mp3_play(completeSong);
-  deactivateAll(completeSongDuration);
 }
 
 void handleSuccess() {
