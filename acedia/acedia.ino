@@ -50,15 +50,16 @@ Button buttons [fragmentsCount] = {
   Button(9),
 };
 SimpleIndicator indicators [fragmentsCount] = {
+  SimpleIndicator(13),
+  SimpleIndicator(3),
+  SimpleIndicator(2),
   SimpleIndicator(A0),
   SimpleIndicator(A1),
   SimpleIndicator(A2),
-  SimpleIndicator(A3),
-  SimpleIndicator(A4),
-  SimpleIndicator(A5),
+
 };
 Button exampleButton(12);
-SimpleIndicator exampleIndicator(13);
+SimpleIndicator exampleIndicator(A3);;
 
 BlinkingIndicator* red;
 SimpleIndicator* green;
@@ -91,7 +92,7 @@ void setup() {
   mySoftwareSerial.begin(9600);
 
   mp3_set_serial(mySoftwareSerial);
-  mp3_set_volume(10);  // громкость крутить здесь
+  mp3_set_volume(5);  // громкость крутить здесь
 
   for (int i = 0; i < fragmentsCount; i++) {
     buttons[i].onPress(handleButtonPress);
