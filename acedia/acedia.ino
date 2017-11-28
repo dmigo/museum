@@ -56,10 +56,9 @@ SimpleIndicator indicators [fragmentsCount] = {
   SimpleIndicator(A0),
   SimpleIndicator(A1),
   SimpleIndicator(A2),
-
 };
 Button exampleButton(12);
-SimpleIndicator exampleIndicator(A3);;
+SimpleIndicator exampleIndicator(A3);
 
 BlinkingIndicator* red;
 SimpleIndicator* green;
@@ -145,9 +144,9 @@ void handleExampleButtonPress(int pin) {
 
 
 void handleExampleButtonRelease(int pin) {
-  exampleIndicator.switchOff();
   mp3_play(completeSong);
   deactivateAll(completeSongDuration);
+  exampleIndicator.switchOff();
 }
 
 void handleSuccess() {
