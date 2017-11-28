@@ -32,7 +32,7 @@ int pinToId(int pin) {
     case 8:
       return 4;
       break;
-    case 9:
+    case 12:
       return 5;
       break;
   }
@@ -47,18 +47,18 @@ Button buttons [fragmentsCount] = {
   Button(6),
   Button(7),
   Button(8),
-  Button(9),
+  Button(12),
 };
 SimpleIndicator indicators [fragmentsCount] = {
-  SimpleIndicator(13),
-  SimpleIndicator(3),
-  SimpleIndicator(2),
   SimpleIndicator(A0),
   SimpleIndicator(A1),
   SimpleIndicator(A2),
+  SimpleIndicator(A3),
+  SimpleIndicator(A4),
+  SimpleIndicator(13),
 };
-Button exampleButton(12);
-SimpleIndicator exampleIndicator(A3);
+Button exampleButton(9);
+SimpleIndicator exampleIndicator(A5);
 
 BlinkingIndicator* red;
 SimpleIndicator* green;
