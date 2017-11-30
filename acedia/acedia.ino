@@ -124,29 +124,46 @@ void deactivateAll() {
   exampleButton.deactivate();
 }
 
+void activateAll() {
+  for (int i = 0; i < fragmentsCount; i++) {
+    buttons[i].activate();
+  }
+  exampleButton.activate();
+}
+
 void handleButtonPress(int pin) {
+  deactivateAll();
   int id = pinToId(pin);
+  
+  buttons[id].activate();
   indicators[id].switchOn();
 }
 
 
 void handleButtonRelease(int pin) {
   int id = pinToId(pin);
-  sequence.add(id);
+  
   mp3_play(fragments[id]);
-  deactivateAll(durations[id]);
   indicators[id].switchOff();
+  
+  activateAll();
+  deactivateAll(durations[id]);
+  
+  sequence.add(id);
 }
 
 void handleExampleButtonPress(int pin) {
+  deactivateAll();
+  exampleButton.activate();
   exampleIndicator.switchOn();
 }
 
 
 void handleExampleButtonRelease(int pin) {
   mp3_play(completeSong);
-  deactivateAll(completeSongDuration);
   exampleIndicator.switchOff();
+  activateAll();
+  deactivateAll(completeSongDuration);
 }
 
 void handleSuccess() {
