@@ -176,7 +176,7 @@ void handleExampleButtonRelease(int pin) {
 }
 
 void handleSuccess() {
-  Serial.print("Win!");
+  Serial.println("Win!");
   mp3_play(completeSong);
   deactivateAll();
   green->switchOn();
