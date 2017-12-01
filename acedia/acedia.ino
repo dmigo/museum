@@ -108,6 +108,9 @@ void setup() {
 
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
+  
+  Serial.begin(9600);
+  Serial.println("Version 0.1.1");
 }
 
 void deactivateAll(int duration) {
@@ -134,6 +137,8 @@ void activateAll() {
 void handleButtonPress(int pin) {
   deactivateAll();
   int id = pinToId(pin);
+  Serial.print("Button press ");
+  Serial.println(pin);
   
   buttons[id].activate();
   indicators[id].switchOn();
@@ -142,6 +147,8 @@ void handleButtonPress(int pin) {
 
 void handleButtonRelease(int pin) {
   int id = pinToId(pin);
+  Serial.print("Button release ");
+  Serial.println(pin);
   
   mp3_play(fragments[id]);
   indicators[id].switchOff();
@@ -153,6 +160,7 @@ void handleButtonRelease(int pin) {
 }
 
 void handleExampleButtonPress(int pin) {
+  Serial.println("Button press example");
   deactivateAll();
   exampleButton.activate();
   exampleIndicator.switchOn();
@@ -160,6 +168,7 @@ void handleExampleButtonPress(int pin) {
 
 
 void handleExampleButtonRelease(int pin) {
+  Serial.println("Button release example");
   mp3_play(completeSong);
   exampleIndicator.switchOff();
   activateAll();
@@ -167,12 +176,14 @@ void handleExampleButtonRelease(int pin) {
 }
 
 void handleSuccess() {
+  Serial.print("Win!");
   mp3_play(completeSong);
   deactivateAll();
   green->switchOn();
 }
 
 void handleFail() {
+  Serial.println("Fail!");
   red->blinkNTimes(3);
 }
 
