@@ -8,6 +8,8 @@ class Sensor {
     long _debounceTime;
     int _pin;
 
+    Blocker* _blocker;
+
     void (*_onDrop)(int);
     void (*_onRise)(int);
 
@@ -49,17 +51,21 @@ class Sensor {
       _state = HIGH;
       _stateTimestamp = 0;
       _debounceTime = debounceTime;
+      _blocker = new Blocker();
 
       pinMode(pin, INPUT_PULLUP);
     }
 
     void check() {
+      _blocker->check();
+
       if (_stateChanged()
           && _debounced()) {
 
         _updateState();
-        _act();
-        
+
+        if (!_blocker->isBlocked())
+          _act();
       }
     }
 
@@ -68,32 +74,6 @@ class Sensor {
     }
     void onRise(void (*callback)(int)) {
       _onRise = callback;
-    }
-};
-
-class BlockableSensor {
-  private:
-    Blocker* _blocker;
-    Sensor* _sensor;
-    
-  public:
-    BlockableSensor(int pin, long debounceTime) {
-      _sensor = new Sensor(pin, debounceTime);
-      _blocker = new Blocker();
-
-      pinMode(pin, INPUT_PULLUP);
-    }
-
-    void check() {
-      _blocker->check();
-      _sensor->check();
-    }
-
-    void onDrop(void (*callback)(int)) {
-      _sensor->onDrop(callback);
-    }
-    void onRise(void (*callback)(int)) {
-      _sensor->onRise(callback);
     }
 
     void deactivate(long milliseconds) {

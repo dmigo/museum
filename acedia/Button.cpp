@@ -5,10 +5,10 @@
 
 class Button {
   private:
-    BlockableSensor* _sensor;
+    Sensor* _sensor;
   public:
     Button(int pin) {
-      _sensor = new BlockableSensor(pin, DEBOUNCE_TIME);
+      _sensor = new Sensor(pin, DEBOUNCE_TIME);
     }
 
     void check(){
