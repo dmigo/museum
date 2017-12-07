@@ -8,6 +8,8 @@ class Sensor {
     long _debounceTime;
     int _pin;
 
+    bool _isDropped;
+
     Blocker* _blocker;
 
     void (*_onDrop)(int);
@@ -17,17 +19,20 @@ class Sensor {
       if (_state == LOW) {
         _drop();
       } else {
-        _rise();
+        if(_isDropped)
+          _rise();
       }
     }
 
     void _drop() {
+      _isDropped = true;
       if (_onDrop != 0L) {
         _onDrop(_pin);
       }
     }
 
     void _rise() {
+      _isDropped = false;
       if (_onRise != 0L) {
         _onRise(_pin);
       }
@@ -52,6 +57,7 @@ class Sensor {
       _stateTimestamp = 0;
       _debounceTime = debounceTime;
       _blocker = new Blocker();
+      _isDropped = false;
 
       pinMode(pin, INPUT_PULLUP);
     }
