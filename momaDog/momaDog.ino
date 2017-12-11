@@ -10,7 +10,7 @@ bool state[amount] = {false};
 
 void setup() {
   Wire.begin(); // join i2c bus (address optional for master)
-  Serial1.begin(9600);
+  Serial.begin(9600);
   for(int i=0; i<amount; i++){
     pinMode(leds[i], OUTPUT);
     digitalWrite(leds[i], LOW);
@@ -24,32 +24,32 @@ void setState(int id, bool newState) {
 }
 
 void sendState() {
-  Serial1.println();
+  Serial.println();
   for (int i = 0; i < amount; i++) {
-    Serial1.print('C');
-    Serial1.print(i);
-    Serial1.print(':');
-    Serial1.print(state[i]);
+    Serial.print('C');
+    Serial.print(i);
+    Serial.print(':');
+    Serial.print(state[i]);
   }
 }
 
 void skipToCommand() {
-  if (Serial1.available() <= 0)
+  if (Serial.available() <= 0)
     return;
     
-  while(Serial1.peek() != 'C'){
-    Serial1.read();
+  while(Serial.peek() != 'C'){
+    Serial.read();
   }
 }
 
 void executeCommand() {
-  if (Serial1.available() <= 0
-  || Serial1.peek() != 'C')
+  if (Serial.available() <= 0
+  || Serial.peek() != 'C')
     return;
 
-  int id = Serial1.parseInt();
-  Serial1.read();
-  bool newState = Serial1.parseInt();
+  int id = Serial.parseInt();
+  Serial.read();
+  bool newState = Serial.parseInt();
 
   state[id] = state[id] || newState;
 }

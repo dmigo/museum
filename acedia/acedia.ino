@@ -73,25 +73,26 @@ int fragments [fragmentsCount] = { // фрагменты трэка
 };
 int completeSong = 7;
 int durations [fragmentsCount] = { // длинны фрагментов
-  1000,
-  1000,
-  1000,
-  1000,
-  1000,
-  1000
+  100,
+  100,
+  100,
+  100,
+  100,
+  100
 };
 int completeSongDuration = 6000;
+int failDuration = 1000;
 
-const int sequenceSize = 6; // длинна правильной последовательности
-int pinsSequence[sequenceSize] = {5, 4, 3, 2, 1, 0}; // правильная последовательность
-
-Sequence sequence(fragmentsCount, pinsSequence);
+const int sequenceSize = 10; // длинна правильной последовательности
+int pinsSequence[sequenceSize] = {0, 1, 2, 3, 2, 0, 0, 4, 4, 5}; // правильная последовательность
+                                   // 0, 1, 2, 3, 2, 4, 4, 5
+Sequence sequence(sequenceSize, pinsSequence);
 
 void setup() {
   mySoftwareSerial.begin(9600);
 
   mp3_set_serial(mySoftwareSerial);
-  mp3_set_volume(5);  // громкость крутить здесь
+  mp3_set_volume(20);  // громкость крутить здесь
 
   for (int i = 0; i < fragmentsCount; i++) {
     buttons[i].onPress(handleButtonPress);
@@ -109,8 +110,8 @@ void setup() {
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
   
-  Serial.begin(9600);
-  Serial.println("Version 0.1.1");
+  //Serial.begin(115200);
+  //Serial.println("Version 0.1.1");
 }
 
 void deactivateAll(int duration) {
@@ -137,8 +138,7 @@ void activateAll() {
 void handleButtonPress(int pin) {
   deactivateAll();
   int id = pinToId(pin);
-  Serial.print("Button press ");
-  Serial.println(pin);
+
   
   buttons[id].activate();
   indicators[id].switchOn();
@@ -147,9 +147,8 @@ void handleButtonPress(int pin) {
 
 void handleButtonRelease(int pin) {
   int id = pinToId(pin);
-  Serial.print("Button release ");
-  Serial.println(pin);
-  
+  //Serial.print("Button release ");
+  //Serial.println(pin);  
   mp3_play(fragments[id]);
   indicators[id].switchOff();
   
@@ -160,7 +159,7 @@ void handleButtonRelease(int pin) {
 }
 
 void handleExampleButtonPress(int pin) {
-  Serial.println("Button press example");
+  //Serial.println("Button press example");  
   deactivateAll();
   exampleButton.activate();
   exampleIndicator.switchOn();
@@ -168,7 +167,7 @@ void handleExampleButtonPress(int pin) {
 
 
 void handleExampleButtonRelease(int pin) {
-  Serial.println("Button release example");
+  //Serial.println("Button release example");
   mp3_play(completeSong);
   exampleIndicator.switchOff();
   activateAll();
@@ -176,14 +175,20 @@ void handleExampleButtonRelease(int pin) {
 }
 
 void handleSuccess() {
-  Serial.println("Win!");
-  mp3_play(completeSong);
+  //Serial.println("Win!");
+  mp3_play(8);
+  delay(10);
+  mp3_play(8);
   deactivateAll();
   green->switchOn();
 }
 
 void handleFail() {
-  Serial.println("Fail!");
+  //Serial.println("Fail!");
+  mp3_play(9);
+  delay(10);
+  mp3_play(9);
+  deactivateAll(failDuration);
   red->blinkNTimes(3);
 }
 
