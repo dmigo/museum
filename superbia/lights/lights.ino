@@ -2,7 +2,7 @@
 #include "Waiter.cpp"
 
 #define DELAY 3000 // задержка перед включением
-//#define ADDRESS 
+#define ADDRESS 12
 
 #define SOLVED 1
 #define NOT_SOLVED 0
