@@ -1,3 +1,4 @@
+* **14** - *avarice*
 * **13** - *superbia-code*
 * **12** - *superbia-lights*
 * **11** - *acedia*
