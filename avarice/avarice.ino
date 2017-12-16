@@ -13,7 +13,8 @@ static const byte sizeRightPassword = 5; // длинна правильного 
 char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
 
 Arm* arm;
-const int sensorPin = 13;
+const int sensorPin = 13; // пин сенсора
+const int duplicatorPin = 4; // пин двойник
 
 void setup()
 {
@@ -21,10 +22,12 @@ void setup()
   Serial.println("Starting...");
   
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
-  arm = new Arm(5, 50, 93);
+  arm = new Arm(5, 50, 93); // пин и диапазон для сервака
   
   pinMode(sensorPin, INPUT_PULLUP);
-  attachInterrupt(0, onSensor, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(sensorPin), onSensor, CHANGE);
+  pinMode(duplicatorPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(duplicatorPin), onSensor, CHANGE);
   
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
@@ -47,8 +50,13 @@ void requestEvent() {
     Wire.write(NOT_SOLVED);
 }
 
+bool isSensorActivated(){
+  return digitalRead(sensorPin) == LOW
+  || digitalRead(duplicatorPin) == LOW;
+}
+
 void onSensor() {
-  if (digitalRead(sensorPin) == LOW)
+  if (isSensorActivated())
     arm->toEnd();
   else
     arm->toStart();
