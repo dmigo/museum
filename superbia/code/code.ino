@@ -9,7 +9,7 @@
 KeyCode* rightCode;
 
 static const byte sizeRightPassword = 5; // длинна правильного пароля 
-char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
+char rightPassword[sizeRightPassword] = {'8', 'a', 'u', 'l', '7'}; // правильный пароль
 
 void setup()
 {
@@ -27,7 +27,6 @@ void loop()
 {
   rightCode->check();
 }
-
 void requestEvent() {
   if(rightCode->isSolved())
     Wire.write(SOLVED); 

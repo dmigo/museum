@@ -38,16 +38,16 @@ class Blocker{
 class KeyCode{
 private:
   static const byte _numRows = 4;
-  static const byte _numCols = 3;
+  static const byte _numCols = 8;
   char _keymap[_numRows][_numCols]= 
   {
-    {'1', '2', '3'}, 
-    {'4', '5', '6'}, 
-    {'7', '8', '9'},
-    {'*', '0', '#'}
+    {'1', '2', '3', 'a', 'b', 'c', 'd', 'r' }, 
+    {'4', '5', '6', 'e', 'f', 'g', 'h', 't'}, 
+    {'7', '8', '9', 'q', 'w', 'u', 'y', 'i' },
+    {'*', '0', '#', 'm', 'k', 'l', 'p', 'o'}
   };
-  byte _rowPins[_numRows] = {12,11,10,9};
-  byte _colPins[_numCols]= {8,7,6};
+  byte _rowPins[_numRows] = {2,3,4,5,};
+  byte _colPins[_numCols]= {6,7,10,11,12,A0,A1,A2};
   Keypad _keypad = Keypad(makeKeymap(_keymap), _rowPins, _colPins, _numRows, _numCols);
   
   int _passwordSize;
@@ -107,6 +107,7 @@ public:
     
     char key = _keypad.getKey();
     if(key != NO_KEY){
+      Serial.println(key);
       _attempt[_currentIndex] = key;
       _currentIndex++;
       
