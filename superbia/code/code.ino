@@ -9,7 +9,7 @@
 KeyCode* rightCode;
 
 static const byte sizeRightPassword = 5; // длинна правильного пароля 
-char rightPassword[sizeRightPassword] = {'8', 'a', 'u', 'l', '7'}; // правильный пароль
+char rightPassword[sizeRightPassword] = {'р', 'а', 'й', 'с', 'к', 'и', 'й'}; // правильный пароль
 
 void setup()
 {
