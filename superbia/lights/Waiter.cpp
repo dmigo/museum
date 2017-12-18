@@ -1,5 +1,5 @@
-#ifndef KEYCODE
-#define KEYCODE
+#ifndef WAITER
+#define WAITER
 
 #include <Arduino.h>
 
