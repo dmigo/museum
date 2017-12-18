@@ -17,7 +17,7 @@ void setup() {
   Serial.println("Starting...");
   
   for (int i = 0; i < sensorsCount; i++) {
-    pinMode(sensorPins[i], INPUT_PULLUP);
+    pinMode(sensorPins[i], INPUT);
     attachInterrupt(digitalPinToInterrupt(sensorPins[i]), stateChanged, CHANGE);
   }
   Wire.begin(ADDRESS);
@@ -40,7 +40,7 @@ void requestEvent() {
 bool isOpen() {
   bool state = true;
   for (int i = 0; i < sensorsCount; i++) {
-    state = state && digitalRead(sensorPins[i]) == LOW;
+    state = state && digitalRead(sensorPins[i]) == HIGH;
   }
   return state;
 }
