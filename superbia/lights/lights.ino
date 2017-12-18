@@ -13,12 +13,17 @@ const int sensorPins[3] = {4,5,6};
 Waiter* waiter = new Waiter(DELAY);
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Starting...");
+  
   for (int i = 0; i < sensorsCount; i++) {
     pinMode(sensorPins[i], INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(sensorPins[i]), stateChanged, CHANGE);
   }
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
+  
+  Serial.println("Started.");
 }
 
 void loop() {
@@ -41,10 +46,13 @@ bool isOpen() {
 }
 
 void stateChanged() {
+  Serial.println("State changed.");
   if(isOpen()) {
+    Serial.println("We are open.");
     waiter->start();
   }
   else {
+    Serial.println("We are closed.");
     waiter->drop();
   }
 }
