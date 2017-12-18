@@ -15,7 +15,7 @@ Waiter* waiter = new Waiter(DELAY);
 void setup() {
   for (int i = 0; i < sensorsCount; i++) {
     pinMode(sensorPins[i], INPUT_PULLUP);
-    attachInterrupt(0, stateChanged, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(sensorPins[i]), stateChanged, CHANGE);
   }
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
