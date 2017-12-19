@@ -27,7 +27,7 @@ void setup()
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
   rightCode->onFailure(codeFailed);
-  arm = new Arm(5, 50, 93); // пин и диапазон для сервака
+  arm = new Arm(9, 50, 93); // пин и диапазон для сервака
   
   pinMode(sensorPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(sensorPin), onSensor, CHANGE);
