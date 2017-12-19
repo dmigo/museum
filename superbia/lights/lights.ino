@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include "Waiter.cpp"
+#include "Sensor.cpp"
 
+#define DEBOUNCE_TIME 100
 #define DELAY 3000 // задержка перед включением
 #define ADDRESS 12
 
@@ -8,7 +10,12 @@
 #define NOT_SOLVED 0
 
 const int sensorsCount = 3;
-const int sensorPins[3] = {4,5,6};
+
+Sensor sensors [sensorsCount] = {
+  Sensor(4,DEBOUNCE_TIME),
+  Sensor(5,DEBOUNCE_TIME),
+  Sensor(6,DEBOUNCE_TIME)
+};
 
 Waiter* waiter = new Waiter(DELAY);
 
@@ -17,8 +24,7 @@ void setup() {
   Serial.println("Starting...");
   
   for (int i = 0; i < sensorsCount; i++) {
-    pinMode(sensorPins[i], INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(sensorPins[i]), stateChanged, CHANGE);
+    sensors[i].onChange(stateChanged);
   }
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
@@ -27,7 +33,9 @@ void setup() {
 }
 
 void loop() {
-
+  for (int i = 0; i < sensorsCount; i++) {
+    sensors[i].check();
+  }
 }
 
 void requestEvent() {
@@ -40,12 +48,12 @@ void requestEvent() {
 bool isOpen() {
   bool state = true;
   for (int i = 0; i < sensorsCount; i++) {
-    state = state && digitalRead(sensorPins[i]) == LOW;
+    state = state && sensors[i].isActivated();
   }
   return state;
 }
 
-void stateChanged() {
+void stateChanged(int pin) {
   Serial.println("State changed.");
   if(isOpen()) {
     Serial.println("We are open.");
