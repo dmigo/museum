@@ -4,6 +4,9 @@
 #include "KeyCode.cpp"
 #include "Arm.cpp"
 #include "GameStateIndication.cpp"
+#include "Sensor.cpp"
+
+#define DEBOUNCE_TIME 100
 
 #define SOLVED 1
 #define NOT_SOLVED 0
@@ -15,8 +18,9 @@ GameStateIndication* indication;
 static const byte sizeRightPassword = 5; // длинна правильного пароля 
 char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
 
-const int sensorPin = 13; // пин сенсора
-const int duplicatorPin = 4; // пин двойник
+Sensor* sensor = new Sensor(13,DEBOUNCE_TIME); // сенсор
+Sensor* duplicator = new Sensor(4,DEBOUNCE_TIME); // двойник
+
 
 void setup()
 {
@@ -29,10 +33,10 @@ void setup()
   rightCode->onFailure(codeFailed);
   arm = new Arm(9, 50, 93); // пин и диапазон для сервака
   
-  pinMode(sensorPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(sensorPin), onSensor, CHANGE);
-  pinMode(duplicatorPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(duplicatorPin), onSensor, CHANGE);
+  sensor->onDrop(onSensorDropped);
+  duplicator->onDrop(onSensorDropped);
+  sensor->onRise(onSensorRisen);
+  duplicator->onRise(onSensorRisen);
   
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
@@ -56,16 +60,12 @@ void requestEvent() {
     Wire.write(NOT_SOLVED);
 }
 
-bool isSensorActivated(){
-  return digitalRead(sensorPin) == LOW
-  || digitalRead(duplicatorPin) == LOW;
+void onSensorDropped(int pin) {
+  arm->toEnd();
 }
 
-void onSensor() {
-  if (isSensorActivated())
-    arm->toEnd();
-  else
-    arm->toStart();
+void onSensorRisen(int pin) {
+  arm->toStart();
 }
 
 void codeSolved(){
