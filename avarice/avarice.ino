@@ -61,10 +61,14 @@ void requestEvent() {
 }
 
 void onSensorDropped(int pin) {
+  Serial.print("Dropped: ");
+  Serial.println(pin);
   arm->toEnd();
 }
 
 void onSensorRisen(int pin) {
+  Serial.print("Risen: ");
+  Serial.println(pin);
   arm->toStart();
 }
 
