@@ -32,7 +32,7 @@ void setup()
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
   rightCode->onFailure(codeFailed);
-  arm = new Arm(9, 50, 93); // пин и диапазон для сервака
+  arm = new Arm(9, 10, 100); // пин и диапазон для сервака
   
   sensor->onDrop(onSensorDropped);
   duplicator->onDrop(onSensorDropped);
