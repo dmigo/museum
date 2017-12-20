@@ -46,6 +46,8 @@ void setup()
 
 void loop()
 {
+  sensor->check();
+  duplicator->check();
   rightCode->check();
   indication->check();
 }
