@@ -25,6 +25,7 @@ Sensor* duplicator = new Sensor(4,DEBOUNCE_TIME); // двойник
 void setup()
 {
   Serial.begin(9600);
+  Serial.println("Version 0.1.1");
   Serial.println("Starting...");
   
   indication = new GameStateIndication(A1, A0);// зеленый индикатор, красный индикатор
