@@ -1,4 +1,4 @@
-#define ADDRESS 8
+#define ADDRESS // 15 - 18
 #define UID 10775353  //айдишник нужной нфцшки
 
 #include <Wire.h>
