@@ -47,9 +47,11 @@ class Sensor {
     }
 
     bool _stateChanged() {
+      print(" stateChanged - 1");
       return digitalRead(_pin) != _state;
     }
     bool _debounced() {
+      print(" _debounced - 1");
       return millis() > _stateTimestamp + _debounceTime;
     }
 
@@ -64,11 +66,21 @@ class Sensor {
     }
 
     void check() {
+      print(" check - 1");
       if (_stateChanged()
           && _debounced()) {
+        print(" check - 2");
         _updateState();
+        print(" check - 3");
         _act();
       }
+      print(" check - 4");
+    }
+    void print(String msg){
+      Serial.print("[");
+      Serial.print(_pin);
+      Serial.print("] ");
+      Serial.println(msg);
     }
 
     void onDrop(void (*callback)(int)) {
