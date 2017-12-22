@@ -18,8 +18,8 @@ GameStateIndication* indication;
 static const byte sizeRightPassword = 5; // длинна правильного пароля 
 char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
 
-Sensor* sensor = new Sensor(13,DEBOUNCE_TIME); // сенсор
-Sensor* duplicator = new Sensor(4,DEBOUNCE_TIME); // двойник
+Sensor* sensor = new Sensor(13, DEBOUNCE_TIME); // сенсор
+Sensor* duplicator = new Sensor(4, DEBOUNCE_TIME); // двойник
 
 
 void setup()
@@ -32,7 +32,7 @@ void setup()
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
   rightCode->onFailure(codeFailed);
-  arm = new Arm(9, 10, 100); // пин и диапазон для сервака
+  arm = new Arm(9, 50, 93); // пин и диапазон для сервака
   
   sensor->onDrop(onSensorDropped);
   duplicator->onDrop(onSensorDropped);
