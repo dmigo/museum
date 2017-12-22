@@ -3,7 +3,7 @@
 #include "Sensor.cpp"
 
 #define DEBOUNCE_TIME 100
-#define ADDRESS 12
+#define ADDRESS 20
 
 #define SOLVED 1
 #define NOT_SOLVED 0

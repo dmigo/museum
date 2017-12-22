@@ -3,9 +3,9 @@
 #define SOLVED 1
 #define NOT_SOLVED 0
 
-const int amount = 7;
-int slaves[amount] = { 8, 9, 10, 11, 12, 13, 14};
-int leds[amount] = { 8, 9, 10, 11, 12, 13, 14};
+const int amount = 13;
+int slaves[amount] = { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+int leds[amount] = { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 bool state[amount] = {false};
 
 void setup() {
