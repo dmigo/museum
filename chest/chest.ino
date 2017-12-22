@@ -4,12 +4,13 @@
 #include <Wire.h>
 #include "RfidLock.cpp"
 #include "SimpleIndicator.cpp"
+#include "DurableIndicator.cpp"
 
 #define SOLVED 1
 #define NOT_SOLVED 0
 
 RfidLock* rfidLock;
-SimpleIndicator* green;
+DurableIndicator* green;
 
 void setup()
 {
@@ -18,8 +19,10 @@ void setup()
   Serial.println("Starting...");
   
   rfidLock = new RfidLock(UID);
-  
-  green = new SimpleIndicator(A2); // пин индикатора
+  rfidLock->onActive(lightUp);
+
+  SimpleIndicator* inner = new SimpleIndicator(A2); // пин индикатора
+  green = new DurableIndicator(inner); 
 
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
@@ -29,11 +32,7 @@ void setup()
 void loop()
 { 
   rfidLock->check();
-
-  if(rfidLock->isOpen())
-    green->switchOn();
-  else
-    green->switchOff();
+  green->check();
 }
 
 void requestEvent() {
@@ -41,5 +40,9 @@ void requestEvent() {
     Wire.write(SOLVED); 
   else
     Wire.write(NOT_SOLVED);
+}
+
+void lightUp(){
+  green->lightUp(100);
 }
 

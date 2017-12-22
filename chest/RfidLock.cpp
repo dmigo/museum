@@ -10,10 +10,12 @@ private:
 
   unsigned long _key;
   bool _isOpen = false;
+  void (*_onActive)();
   
   bool _isRfidAvailable(){
     return _rfid->available();
   }
+  
   unsigned long _getUid(){
     byte data[6];
     byte length;
@@ -27,6 +29,13 @@ private:
   
     return result;
   }
+
+  void _activate(){
+      if (_onActive != 0L) {
+        _onActive();
+      }
+  }
+  
   
 public:
   RfidLock(unsigned long key){
@@ -44,7 +53,12 @@ public:
       Serial.print("Rfid: ");
       Serial.println(result);
       _isOpen = result == _key;
+      _activate();
     }
+  }
+
+  void onActive(void (*callback)()){
+    _onActive = callback;
   }
   
   bool isOpen(){
