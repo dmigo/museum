@@ -61,6 +61,10 @@ class Sensor {
       _state = HIGH;
       _stateTimestamp = 0;
       _debounceTime = debounceTime;
+      
+      _onDrop = 0L;
+      _onRise = 0L;
+      _onChange = 0L;
 
       pinMode(pin, INPUT_PULLUP);
     }
