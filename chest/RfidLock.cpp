@@ -44,16 +44,15 @@ public:
   }
   
   void check(){
-    if(_isOpen)
-      return;
-      
     if(_isRfidAvailable()){
+      _activate();
+      if(!_isOpen){
       Serial.println("Data available");
       unsigned long result = _getUid();
       Serial.print("Rfid: ");
       Serial.println(result);
       _isOpen = result == _key;
-      _activate();
+      }
     }
   }
 
