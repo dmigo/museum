@@ -1,5 +1,6 @@
 #define ADDRESS // 15 - 18
 #define UID 10775353  //айдишник нужной нфцшки
+#define LIGHT_UP_DURATION 1000
 
 #include <Wire.h>
 #include "RfidLock.cpp"
@@ -15,7 +16,7 @@ DurableIndicator* green;
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Version 1.0.1");
+  Serial.println("Version 1.0.2");
   Serial.println("Starting...");
   
   rfidLock = new RfidLock(UID);
@@ -42,7 +43,9 @@ void requestEvent() {
     Wire.write(NOT_SOLVED);
 }
 
-void lightUp(){
-  green->lightUp(100);
+void lightUp(unsigned long uid){
+  Serial.print("Rfid: ");
+  Serial.println(uid);
+  green->lightUp(LIGHT_UP_DURATION);
 }
 

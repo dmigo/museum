@@ -10,7 +10,7 @@ private:
 
   unsigned long _key;
   bool _isOpen = false;
-  void (*_onActive)();
+  void (*_onActive)(unsigned long uid);
   
   bool _isRfidAvailable(){
     return _rfid->available();
@@ -30,9 +30,9 @@ private:
     return result;
   }
 
-  void _activate(){
+  void _activate(unsigned long uid){
       if (_onActive != 0L) {
-        _onActive();
+        _onActive(uid);
       }
   }
   
@@ -46,18 +46,14 @@ public:
   
   void check(){
     if(_isRfidAvailable()){
-      _activate();
-      if(!_isOpen){
-      Serial.println("Data available");
-      unsigned long result = _getUid();
-      Serial.print("Rfid: ");
-      Serial.println(result);
-      _isOpen = result == _key;
-      }
+      unsigned long uid = _getUid();
+      _activate(uid);
+
+      _isOpen = _isOpen || uid == _key;
     }
   }
 
-  void onActive(void (*callback)()){
+  void onActive(void (*callback)(unsigned long uid)){
     _onActive = callback;
   }
   
@@ -71,3 +67,4 @@ public:
 };
 
 #endif
+
