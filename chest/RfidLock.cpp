@@ -39,6 +39,7 @@ private:
   
 public:
   RfidLock(unsigned long key){
+    _onActive = 0L;
     _rfid->begin();
     _key = key;
   }

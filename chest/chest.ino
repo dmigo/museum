@@ -15,7 +15,7 @@ DurableIndicator* green;
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Version 1.0.0");
+  Serial.println("Version 1.0.1");
   Serial.println("Starting...");
   
   rfidLock = new RfidLock(UID);

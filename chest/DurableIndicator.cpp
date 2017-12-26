@@ -12,7 +12,7 @@ class DurableIndicator{
   long _duration;
   
   bool _isOn(){
-    return millis()< _start + _duration;
+    return millis() < _start + _duration;
   }
   
   public:
