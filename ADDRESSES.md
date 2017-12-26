@@ -1,3 +1,6 @@
+* **23** - *gula-fruit*
+* **22** - *gula-fruit*
+* **21** - *gula-candy*
 * **20** - *crucifix*
 * **19** - *mirror*
 * **18** - *chest-4*
