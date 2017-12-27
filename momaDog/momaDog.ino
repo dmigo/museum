@@ -4,10 +4,10 @@
 #define NOT_SOLVED 0
 #define NOT_HERE -1
 
-const int amount = 13;
+const int amount = 16;
 int slaves[amount] = { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-int leds[amount] = { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-int state[amount] = {NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE};
+int leds[amount] = { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 24, 25, 26, 27};
+int state[amount] = {NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE, NOT_HERE,};
 
 void setup() {
   Wire.begin(); // join i2c bus (address optional for master)
