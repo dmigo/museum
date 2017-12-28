@@ -85,7 +85,7 @@ class Sensor {
       _onChange = callback;
     }
 
-    bool isActivated(){
+    bool isActive(){
       return _state == LOW;
     }
 };

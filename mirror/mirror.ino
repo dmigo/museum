@@ -1,22 +1,32 @@
 #include <Wire.h>
 #include "SimpleIndicator.cpp"
+#include "ConditionalTimer.cpp"
 #include "Sensor.cpp"
+#include "Puzzle.cpp"
 
 #define DEBOUNCE_TIME 100
+#define TIMER_INTERVAL 1500
 #define ADDRESS 19
 
 #define SOLVED 1
 #define NOT_SOLVED 0
 
-Sensor* sensor = new Sensor(6,DEBOUNCE_TIME);
-SimpleIndicator* green = new SimpleIndicator(7); // пин индикации
+Sensor* sensor;
+SimpleIndicator* green;
+ConditionalTimer* timer;
+Puzzle* puzzle;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Version 1.0.0");
+  Serial.println("Version 1.1.0");
   Serial.println("Starting...");
   
-  sensor->onChange(stateChanged);
+  sensor = new Sensor(6, DEBOUNCE_TIME);
+  green = new SimpleIndicator(7); // пин индикации
+  green->switchOff();
+  timer = new ConditionalTimer(isSensorActive, TIMER_INTERVAL);
+  timer->onReached(timerReached);
+  puzzle = new Puzzle();
   
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
@@ -26,28 +36,26 @@ void setup() {
 
 void loop() {
   sensor->check();
+  timer->check();
 }
 
 void requestEvent() {
-  if (isOpen())
+  if (puzzle->isSolved())
     Wire.write(SOLVED);
   else
     Wire.write(NOT_SOLVED);
 }
 
-bool isOpen() {
-  return sensor->isActivated();
+bool isSensorActive() {
+  Serial.print("Sensor is active: ");
+  bool isActive = sensor->isActive();
+  Serial.println(isActive);
+  return isActive;
 }
 
-void stateChanged(int pin) {
-  Serial.println("State changed.");
-  if(isOpen()) {
-    Serial.println("We are open.");
-    green->switchOn();
-  }
-  else {
-    Serial.println("We are closed.");
-    green->switchOff();
-  }
+void timerReached() {
+  Serial.println("Timer reached.");
+  puzzle->solve();
+  green->switchOn();
 }
 
