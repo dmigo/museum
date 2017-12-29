@@ -10,13 +10,13 @@
 KeyCode* rightCode;
 GameStateIndication* indication;
 
-static const byte sizeRightPassword = 10; // длинна правильного пароля 
-char rightPassword[sizeRightPassword] = {'р', 'а', 'й', 'с', 'к', 'и', 'й', 'с', 'а', 'д'}; // правильный пароль
+static const byte sizeRightPassword = 11; // длинна правильного пароля 
+char rightPassword[sizeRightPassword] = {'р', 'а', 'й', 'с', 'к', 'и', 'й', '_', 'с', 'а', 'д'}; // правильный пароль
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println("Starting...");
+  //Serial.begin(9600);
+  //Serial.println("Starting...");
   
   indication = new GameStateIndication(8, 9);// зеленый индикатор, красный индикатор
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
@@ -25,7 +25,7 @@ void setup()
   
   Wire.begin(ADDRESS);
   Wire.onRequest(requestEvent);
-  Serial.println("Started.");
+  //Serial.println("Started.");
 }
 
 void loop()
@@ -42,11 +42,11 @@ void requestEvent() {
 }
 
 void codeSolved(){
- Serial.println("Win");
+ //Serial.println("Win");
  indication->win();
 }
 void codeFailed(){
- Serial.println("Fail");
+ //Serial.println("Fail");
  indication->fail();
 }
 

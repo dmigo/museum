@@ -41,10 +41,10 @@ private:
   static const byte _numCols = 8;
   char _keymap[_numRows][_numCols]= 
   {
-    {'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж' }, 
-    {'з', 'и', 'Й', 'к', 'л', 'м', 'н', 'о'}, 
-    {'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц' },
-    {'ч', 'щ', 'э', 'ю', 'я', '_', '1', '2'}
+    {'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з' }, 
+    {'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п'}, 
+    {'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч' },
+    {'ш', 'щ', 'ы', 'ь', 'э', 'ю', 'я', '_'}
   };
   byte _rowPins[_numRows] = {2,3,4,5,};
   byte _colPins[_numCols]= {6,7,10,11,12,A0,A1,A2};
@@ -107,7 +107,7 @@ public:
     
     char key = _keypad.getKey();
     if(key != NO_KEY){
-      Serial.println(key);
+      //Serial.println(key);
       _attempt[_currentIndex] = key;
       _currentIndex++;
       
