@@ -46,8 +46,8 @@ private:
     {'7', '8', '9'},
     {'*', '0', '#'}
   };
-  byte _rowPins[_numRows] = {12,11,10,5};
-  byte _colPins[_numCols]= {8,7,6};
+  byte _rowPins[_numRows] = {3,5,7,8};
+  byte _colPins[_numCols]= {9,10,11};
   Keypad _keypad = Keypad(makeKeymap(_keymap), _rowPins, _colPins, _numRows, _numCols);
   
   int _passwordSize;
