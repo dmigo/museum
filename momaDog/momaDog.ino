@@ -188,16 +188,16 @@ class Renderer {
         int pin = locks->items[i].pin;
         bool isOpen = locks->items[i].getState() == OPEN;
         if (isOpen)
-          digitalWrite(pin, HIGH);
-        else
           digitalWrite(pin, LOW);
+        else
+          digitalWrite(pin, HIGH);
       }
 
     }
     void init(Locks* locks) {
       for (int i = 0; i < locks->amount; i++) {
         pinMode(locks->items[i].pin, OUTPUT);
-        digitalWrite(locks->items[i].pin, LOW);
+        digitalWrite(locks->items[i].pin, HIGH);
       }
     }
 };
