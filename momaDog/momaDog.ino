@@ -225,8 +225,6 @@ class SerialCommander {
 class I2CCommander {
   private:
     bool _available(int address) {
-        Serial.print(address);//todo remove
-        Serial.println(" ??? ");//todo remove
       Wire.requestFrom(address, 1);
       return Wire.available();
     }
@@ -241,9 +239,6 @@ class I2CCommander {
       int puzzle = address;
       if (_available(address)) { // this class shouldn't know anything about locks and states
         byte state = _getState(address);
-        Serial.print(address);//todo remove
-        Serial.print(" available ");//todo remove
-        Serial.println(state);//todo remove
         return Action(ACTION_SET_PUZZLE_STATE, puzzle, state);
       }
       else {
@@ -279,11 +274,11 @@ State* state = new State(locks);
 Store* store = new Store(reduce, state);
 
 void transmitMsg (String msg) {
-  // todo uncomment Serial.println(msg);
+  Serial1.println(msg);
 }
 Broadcaster* broadcaster = new Broadcaster(transmitMsg);
 Renderer* renderer = new Renderer();
-SerialCommander* serialCommander = new SerialCommander(&Serial); // Serial в зависимости от модели Arduino
+SerialCommander* serialCommander = new SerialCommander(&Serial1); // Serial в зависимости от модели Arduino
 I2CCommander* i2cCommander = new I2CCommander();
 
 void setup () {
