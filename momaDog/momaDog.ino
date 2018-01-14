@@ -251,21 +251,99 @@ class I2CCommander {
 
 
 ////Initial state ============================
-Puzzle acedia_puzzles [1] = {
-  Puzzle(7)
+Puzzle ira_puzzles [1] = {
+  Puzzle(8)
 };
-Lock acedia_lock(acedia_puzzles, 1, 7);
+Lock ira_lock(ira_puzzles, 1, 8);
 
-Puzzle gula_puzzles [2] = {
-  Puzzle(8),
+Puzzle darkRoom_puzzles [1] = {
   Puzzle(9)
 };
-Lock gula_lock(gula_puzzles, 2, 8);
+Lock darkRoom_lock(darkRoom_puzzles, 1, 9);
 
-const int locksAmount = 2;
+Puzzle darkRoom_lights_puzzles [1] = {
+  Puzzle(10)
+};
+Lock darkRoom_lights_lock(darkRoom_lights_puzzles, 1, 10);
+
+Puzzle acedia_puzzles [1] = {
+  Puzzle(11)
+};
+Lock acedia_lock(acedia_puzzles, 1, 11);
+
+Puzzle superbia_lights_puzzles [1] = {
+  Puzzle(12)
+};
+Lock superbia_lights_lock(superbia_lights_puzzles, 1, 12);
+
+Puzzle superbia_code_puzzles [1] = {
+  Puzzle(13)
+};
+Lock superbia_code_lock(superbia_code_puzzles, 1, 13);
+
+Puzzle avarice_puzzles [1] = {
+  Puzzle(14)
+};
+Lock avarice_lock(avarice_puzzles, 1, 14);
+
+Puzzle chest_1_puzzles [1] = {
+  Puzzle(15)
+};
+Lock chest_1_lock(chest_1_puzzles, 1, 15);
+
+Puzzle chest_2_puzzles [1] = {
+  Puzzle(16)
+};
+Lock chest_2_lock(chest_2_puzzles, 1, 16);
+
+Puzzle chest_3_puzzles [1] = {
+  Puzzle(17)
+};
+Lock chest_3_lock(chest_3_puzzles, 1, 17);
+
+Puzzle chest_4_puzzles [1] = {
+  Puzzle(18)
+};
+Lock chest_4_lock(chest_4_puzzles, 1, 18);
+
+Puzzle mirror_puzzles [1] = {
+  Puzzle(19)
+};
+Lock mirror_lock(mirror_puzzles, 1, 19);
+
+Puzzle crucifix_puzzles [1] = {
+  Puzzle(20)
+};
+Lock crucifix_lock(crucifix_puzzles, 1, 20);
+
+Puzzle gula_candy_puzzles [1] = {
+  Puzzle(21)
+};
+Lock gula_candy_lock(gula_candy_puzzles, 1, 21);
+
+Puzzle gula_fruit_puzzles [2] = {
+  Puzzle(22),
+  Puzzle(23)
+};
+Lock gula_fruit_lock(gula_fruit_puzzles, 2, 22);
+
+const int locksAmount = 15;
 Lock locksArray [locksAmount] = {
+  ira_lock,
+  darkRoom_lock,
+  darkRoom_lights_lock,
   acedia_lock,
-  gula_lock
+  superbia_lights_lock,
+  superbia_code_lock,
+  avarice_lock,
+  chest_1_lock,
+  chest_2_lock,
+  chest_3_lock,
+  chest_4_lock,
+  mirror_lock,
+  crucifix_lock,
+  gula_candy_lock,
+  gula_fruit_lock
 };
 Locks* locks = new Locks(locksAmount, locksArray);
 //Initial state ============================
