@@ -362,7 +362,7 @@ I2CCommander* i2cCommander = new I2CCommander();
 void setup () {
   Serial.begin(9600);
   Serial1.begin(9600);
-  Serial.println("Version 1.0.0");
+  Serial.println("Version 1.0.1");
   renderer->init(store->getState()->locks);
   Serial.println("Started");
 }
