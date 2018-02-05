@@ -124,8 +124,17 @@ class Store {
 };
 
 //Reducer             ======================
+void writeLog(String msg) {
+  Serial.print("Action ")
+  Serial.print(action.type);
+  Serial.print(":");
+  Serial.print(action.id);
+  Serial.print(" ");
+  Serial.println(action.state);
+}
 
 State* reduce (State* state, Action action) {
+  writeLog(action);
   switch (action.type) {
     case ACTION_SET_LOCK_STATE:
       if (action.state == OPEN) {
