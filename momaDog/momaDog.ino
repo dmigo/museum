@@ -124,17 +124,8 @@ class Store {
 };
 
 //Reducer             ======================
-void writeLog(String msg) {
-  Serial.print("Action ")
-  Serial.print(action.type);
-  Serial.print(":");
-  Serial.print(action.id);
-  Serial.print(" ");
-  Serial.println(action.state);
-}
 
 State* reduce (State* state, Action action) {
-  writeLog(action);
   switch (action.type) {
     case ACTION_SET_LOCK_STATE:
       if (action.state == OPEN) {
@@ -202,6 +193,14 @@ class Renderer {
           digitalWrite(pin, HIGH);
       }
 
+      Serial.print("Locks: ");
+      for (int i = 0; i < locks->amount; i++) {
+        Serial.print(locks->items[i].pin);
+        Serial.print(":");
+        Serial.print(locks->items[i].getState());
+        Serial.print(" ");
+      }
+      Serial.println();
     }
     void init(Locks* locks) {
       for (int i = 0; i < locks->amount; i++) {
@@ -371,7 +370,7 @@ I2CCommander* i2cCommander = new I2CCommander();
 void setup () {
   Serial.begin(9600);
   Serial1.begin(9600);
-  Serial.println("Version 1.0.1");
+  Serial.println("Version 1.0.2");
   renderer->init(store->getState()->locks);
   Serial.println("Started");
 }
