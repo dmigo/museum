@@ -24,7 +24,8 @@ class Rfid {
         ((unsigned long int)data[2] << 16) +
         ((unsigned long int)data[3] << 8) +
         data[4];
-
+      Serial.print("Rfid: ");
+      Serial.println(result);
       return result;
     }
 

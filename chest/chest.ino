@@ -1,5 +1,5 @@
-#define ADDRESS // 15 - 18
-#define UID 10775353  //айдишник нужной нфцшки
+#define ADDRESS 17// 15 - 18
+#define UID 1700000017//айдишник нужной нфцшки
 #define LIGHT_UP_DURATION 1000
 
 #include <Wire.h>

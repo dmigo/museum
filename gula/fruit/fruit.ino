@@ -1,8 +1,8 @@
-#define ADDRESS // 22-23
+#define ADDRESS 8// 22-23
 #define SOLVED 1
 #define NOT_SOLVED 0
 
-#define UID 10775353  //айдишник нужной нфцшки
+#define UID 10000012   //айдишник нужной нфцшки
 
 #include <Wire.h>
 #include "Puzzle.cpp"

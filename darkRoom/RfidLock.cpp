@@ -33,7 +33,7 @@ public:
     if(_isOpen)
       return;
       
-    if(_isRfidAvailable()){
+    if(_isRfidAvailable()){ 
       Serial.println("Data available");
       long result = _getRfid();
       Serial.print("Rfid: ");

@@ -16,8 +16,8 @@ SimpleIndicator* green2;
 SimpleIndicator* red;
 BlinkingIndicator* redBlink;
 
-static const byte sizeRightPassword = 5; // длинна правильного пароля 
-char rightPassword[sizeRightPassword] = {'3', '2', '1', '6', '7'}; // правильный пароль
+static const byte sizeRightPassword = 4; // длинна правильного пароля 
+char rightPassword[sizeRightPassword] = {'2', '0', '1', '7'}; // правильный пароль
 
 void setup()
 {
