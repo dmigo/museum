@@ -238,6 +238,7 @@ class I2CCommander {
     }
     byte _getState(int address) {
       return Wire.read();
+      while (Wire.available()==0);
     }
   public:
     I2CCommander() {
