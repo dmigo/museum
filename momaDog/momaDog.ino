@@ -336,7 +336,23 @@ Puzzle gula_fruit_puzzles [2] = {
 };
 Lock gula_fruit_lock(gula_fruit_puzzles, 2, 22);
 
-const int locksAmount = 15;
+  Puzzle code_panel1_puzzles [1] = {
+  Puzzle(24),
+};
+Lock code_panel1_lock(code_panel1_puzzles, 1, 23);
+
+  Puzzle code_panel2_puzzles [1] = {
+  Puzzle(25),  
+};
+Lock code_panel2_lock(code_panel2_puzzles, 1, 24);
+
+    Puzzle EXIT_puzzles [1] = {
+    Puzzle(26),
+};
+Lock EXIT_lock(EXIT_puzzles, 1, 25);
+
+
+const int locksAmount = 18;
 Lock locksArray [locksAmount] = {
   ira_lock,
   darkRoom_lock,
@@ -352,7 +368,10 @@ Lock locksArray [locksAmount] = {
   mirror_lock,
   crucifix_lock,
   gula_candy_lock,
-  gula_fruit_lock
+  gula_fruit_lock,
+  code_panel1_lock,
+  code_panel2_lock,
+  EXIT_lock
 };
 Locks* locks = new Locks(locksAmount, locksArray);
 //Initial state ============================

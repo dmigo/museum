@@ -24,15 +24,15 @@ void setup()
   Serial.begin(9600);
   Serial.println("Starting...");
   
-  rfidLock = new RfidLock(32157); //сюда кладем правильный rfid-ключ
+  rfidLock = new RfidLock(27446); //сюда кладем правильный rfid-ключ
   
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
   rightCode->onFailure(codeFailed);
   
-  green1 = new SimpleIndicator(A2);
+  green1 = new SimpleIndicator(A0);
   green2 = new SimpleIndicator(A1);
-  red = new SimpleIndicator(A0);
+  red = new SimpleIndicator(A2);
   
   redBlink = new BlinkingIndicator(red, 500, 500);
 
