@@ -1,4 +1,4 @@
-#define ADDRESS 24
+#define ADDRESS 25
 
 #include <Wire.h>
 #include "KeyCode.cpp"
