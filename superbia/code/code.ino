@@ -1,14 +1,18 @@
 #define ADDRESS 13
+#define DROP_BUTTON A3
+#define DEBOUNCE_TIME 100
 
 #include <Wire.h>
 #include "KeyCode.cpp"
 #include "GameStateIndication.cpp"
+#include "Sensor.cpp"
 
 #define SOLVED 1
 #define NOT_SOLVED 0
 
 KeyCode* rightCode;
 GameStateIndication* indication;
+Sensor* dropButton;
 
 static const byte sizeRightPassword = 11; // длинна правильного пароля 
 char rightPassword[sizeRightPassword] = {'р', 'а', 'й', 'с', 'к', 'и', 'й', '_', 'с', 'а', 'д'}; // правильный пароль
@@ -18,6 +22,9 @@ void setup()
   //Serial.begin(9600);
   //Serial.println("Starting...");
   
+  dropButton = new Sensor(DROP_BUTTON, DEBOUNCE_TIME); // кнопка сброса
+  dropButton->onDrop(dropCode);
+
   indication = new GameStateIndication(8, 9);// зеленый индикатор, красный индикатор
   rightCode = new KeyCode(sizeRightPassword, rightPassword);
   rightCode->onSuccess(codeSolved);
@@ -30,6 +37,7 @@ void setup()
 
 void loop()
 {
+  dropButton->check();
   rightCode->check();
   indication->check();
 }
@@ -48,5 +56,9 @@ void codeSolved(){
 void codeFailed(){
  //Serial.println("Fail");
  indication->fail();
+}
+
+void dropCode(int pin){
+  rightCode->drop();
 }
 
