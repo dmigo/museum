@@ -59,6 +59,6 @@ void codeFailed(){
 }
 
 void dropCode(int pin){
-  rightCode->drop();
+  rightCode->restart();
 }
 

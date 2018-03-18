@@ -123,6 +123,10 @@ public:
     _isSolved = false;
     _currentIndex = 0;
   }
+  void restart(){
+    if(!_isSolved)
+      _currentIndex = 0;
+  }
   void onSuccess(void (*callback)()){
     _onSuccess = callback;
   }

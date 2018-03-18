@@ -89,6 +89,6 @@ void codeFailed() {
 
 void dropCode(int pin) {
   Serial.println("Drop");
-  rightCode->drop();
+  rightCode->restart();
 }
 
